@@ -16,7 +16,7 @@ export default function Dashboard() {
   const fetchPlayerCount = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:4040/api/players/all");
+      const response = await fetch("https://trivia-backend-one.onrender.com/api/players/all");
       const data = await response.json();
 
       if (data.success) {
