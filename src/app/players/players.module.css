@@ -56,6 +56,21 @@
   background-color: #0d8b6d;
 }
 
+.exportBtnExcel {
+  padding: 10px 20px;
+  background-color: #217346;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.exportBtnExcel:hover {
+  background-color: #185c37;
+}
+
 .main {
   padding: 20px 0;
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import * as XLSX from "xlsx";
 import styles from "./players.module.css";
 
 export default function PlayersPage() {
@@ -101,6 +102,33 @@ export default function PlayersPage() {
     document.body.removeChild(link);
   };
 
+  const exportToExcel = () => {
+    if (filteredPlayers.length === 0) return;
+
+    const worksheetData = [
+      ["Name", "Score", "Created At"],
+      ...filteredPlayers.map((player) => [
+        player.name,
+        player.score || "N/A",
+        formatDate(player.createdAt),
+      ]),
+    ];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+
+    // Set column widths
+    worksheet["!cols"] = [
+      { wch: 20 }, // Name column
+      { wch: 10 }, // Score column
+      { wch: 25 }, // Created At column
+    ];
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Players");
+
+    XLSX.writeFile(workbook, `players_${Date.now()}.xlsx`);
+  };
+
   return (
     <div className={styles.container}>
       <nav className={styles.nav}>
@@ -108,6 +136,9 @@ export default function PlayersPage() {
         <div className={styles.navActions}>
           <button onClick={exportToCSV} className={styles.exportBtn}>
             Export CSV
+          </button>
+          <button onClick={exportToExcel} className={styles.exportBtnExcel}>
+            Export Excel
           </button>
           <Link href="/" className={styles.navLink}>
             Back to Dashboard
